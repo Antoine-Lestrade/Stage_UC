@@ -1,13 +1,3 @@
 # Stage_UC
 
-
-Pour chaque nouveau commit:
-    git status
-    git add *
-    git commit -m "le nom de mon commit"
-    git commit -m "le nom de mon commit"
-    git commit -m "le nom de mon commit"
-    git push
-
-
-test 
+Stage réalisé a l'université de Canterbury, au sein du Wireless Center. Mon travail consistais en l'étude d'un module radar IWR6843ISK.
