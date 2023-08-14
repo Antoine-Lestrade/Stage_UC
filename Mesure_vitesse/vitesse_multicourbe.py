@@ -52,50 +52,85 @@ while time.time() - start_time < 5:
 print("le numero t = %d \n" % t)
 print("le nombre d'objet est = %d \n" % (len(tab_objet)))
 
+# def distance(x, y, z):
+#     return ((x ** 2) + (y ** 2) + (z ** 2)) ** 0.5
+#
+# def afficher_courbe_coordonnees(tab_data):
+#     colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+#     plt.figure()
+#     for j in range(len(tab_data)):
+#         # Extraction des coordonnées x, y et z de toutes les instants
+#         x_values = [coord[0] if coord[0] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
+#         y_values = [coord[1] if coord[1] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
+#         z_values = [coord[2] if coord[2] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
+#
+#         # Calcul des distances pour chaque instant
+#         distances = [distance(x, y, z) for x, y, z in zip(x_values, y_values, z_values)]
+#
+#         # Création du graphique
+#         plt.axhline(0, color='gray', linestyle='--')  # Configuration du graphique pour avoir le zéro au centre
+#         plt.axvline(0, color='gray', linestyle='--')
+#
+#         color = colors[j % len(colors)]  # Choix d'une couleur
+#
+#         # Filtrer les points dont la distance est entre 1m et 1.5m
+#         filtered_x_values = [x if -1 <= d <= 1 else None for x, d in zip(x_values, distances)]
+#         filtered_z_values = [y if 1.7 <= d <= 2.1 else None for y, d in zip(y_values, distances)]
+#         filtered_z_values = [z if 2 <= d <= -2 else None for z, d in zip(z_values, distances)]
+#             # filtered_x_values = [x if 0.2 <= d <= 10 else None for x, d in zip(x_values, distances)]
+#             # filtered_z_values = [z if 0.2 <= d <= 10 else None for z, d in zip(z_values, distances)]
+#
+#         # Vérifier si distances est vide avant d'essayer d'accéder à distances[-1]    + distance_label
+#         distance_label = f' - Distance: {distances[-1]:.2f} m' if distances else ''
+#
+#         # Affichage de la courbe (ligne)
+#         plt.plot(filtered_x_values, filtered_z_values, color=color, label=f'Objet {j + 1}')
+#
+#         # Affichage des points de chaque courbe
+#         plt.scatter(filtered_x_values, filtered_z_values, color=color, s=5)  # s définit la taille des points
+#
+#         # Ajout des étiquettes d'axes
+#         plt.xlabel('X')
+#         plt.ylabel('Z')
+#
+#     # Ajout de la légende pour les différentes courbes
+#     plt.legend()
+#
+#     # Affichage du graphique
+#     plt.show()
 
-def distance(x, y, z):
-    return ((x ** 2) + (y ** 2) + (z ** 2)) ** 0.5
+def afficher_trajectoire_objet(tab_data, object_index):
+    # Vérifier si l'objet spécifié existe dans la liste tab_data
+    if object_index >= len(tab_data):
+        print(f"L'objet {object_index} n'existe pas dans la liste.")
+        return
 
-def afficher_courbe_coordonnees(tab_data):
-    colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+    # Filtrer les coordonnées selon les conditions 1.6 < y < 2.2 et -0.5 < x < 0.5
+    filtered_data = [coord for coord_instant in tab_data[object_index] for coord in coord_instant if (1.6 < coord[1] < 2.2) and (-0.5 < coord[0] < 0.5)]
+    x_values = [coord[0] for coord in filtered_data]
+    z_values = [coord[2] for coord in filtered_data]
+
+    # Création du graphique
     plt.figure()
-    for j in range(len(tab_data)):
-        # Extraction des coordonnées x, y et z de toutes les instants
-        x_values = [coord[0] if coord[0] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
-        y_values = [coord[1] if coord[1] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
-        z_values = [coord[2] if coord[2] else 0 for coord_instant in tab_data[j] for coord in coord_instant]
 
-        # Calcul des distances pour chaque instant
-        distances = [distance(x, y, z) for x, y, z in zip(x_values, y_values, z_values)]
+    # Configuration du graphique pour avoir le zéro au centre
+    plt.axhline(0, color='gray', linestyle='--')
+    plt.axvline(0, color='gray', linestyle='--')
 
-        # Création du graphique
-        plt.axhline(0, color='gray', linestyle='--')  # Configuration du graphique pour avoir le zéro au centre
-        plt.axvline(0, color='gray', linestyle='--')
+    # Affichage de la trajectoire de l'objet spécifié
+    plt.plot(x_values, z_values, color='b', label=f'Trajectoire Objet {object_index + 1}')
 
-        color = colors[j % len(colors)]  # Choix d'une couleur
+    # Affichage des points de la trajectoire
+    plt.scatter(x_values, z_values, color='r', s=10)  # s définit la taille des points
 
-        # Filtrer les points dont la distance est entre 1m et 1.5m
-        filtered_x_values = [x if 1 <= d <= 1.7 else None for x, d in zip(x_values, distances)]
-        filtered_z_values = [z if 1 <= d <= 1.7 else None for z, d in zip(z_values, distances)]
-        # filtered_x_values = [x if 0.2 <= d <= 10 else None for x, d in zip(x_values, distances)]
-        # filtered_z_values = [z if 0.2 <= d <= 10 else None for z, d in zip(z_values, distances)]
+    # Ajout des étiquettes d'axes
+    plt.xlabel('X')
+    plt.ylabel('Z')
 
-        # Vérifier si distances est vide avant d'essayer d'accéder à distances[-1]    + distance_label
-        distance_label = f' - Distance: {distances[-1]:.2f} m' if distances else ''
-
-        # Affichage de la courbe (ligne)
-        plt.plot(filtered_x_values, filtered_z_values, color=color, label=f'Objet {j + 1}')
-
-        # Affichage des points de chaque courbe
-        plt.scatter(filtered_x_values, filtered_z_values, color=color, s=5)  # s définit la taille des points
-
-        # Ajout des étiquettes d'axes
-        plt.xlabel('X')
-        plt.ylabel('Z')
-
-    # Ajout de la légende pour les différentes courbes
+    # Ajout de la légende pour la trajectoire
     plt.legend()
 
     # Affichage du graphique
     plt.show()
-afficher_courbe_coordonnees(tab_objet)
+
+afficher_trajectoire_objet(tab_objet, 1)

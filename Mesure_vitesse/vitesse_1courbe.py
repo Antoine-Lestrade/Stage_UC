@@ -7,8 +7,6 @@ from parser_mmw_demo import parser_one_mmw_demo_output_packet
 
 # Temps initial
 start_time = time.time()
-# Liste pour stocker les temps à chaque boucle
-timestamps = []
 
 # Paramètres de communication UART
 port = "COM7"  # Port COM à utiliser (veuillez vérifier le port approprié sur votre système)
@@ -21,6 +19,7 @@ longueur_totale = 0
 X_list = []
 Y_list = []
 Z_list = []
+V_list = []
 
 # Lecture et regroupement des données UART
 data = b""
@@ -36,19 +35,11 @@ while time.time() - start_time < 4:
                 X_list += X
                 Y_list += Y
                 Z_list += Z
-                current_time = time.time()
-                timestamps.append(current_time)
+                V_list += V
                 t = t + 1
                 data = data[end_index:]  # Mise à jour de la variable data en supprimant la trame traitée
             else:
                 break
-
-print("le numero t = %d \n" % t)
-print("les x sont :\n")
-print(X_list)
-print("les y sont :\n")
-print(Y_list)
-
 
 def distance_to_radar(x, y, z):
     radar_position = (0, 0, 0)  # Coordonnées du radar (ici, supposées être à l'origine)
@@ -57,32 +48,34 @@ def distance_to_radar(x, y, z):
     for i in range(len(x)):
         # Calcul de la distance entre le point (x[i], y[i], z[i]) et le radar
         distance = ((x[i] - radar_position[0]) ** 2 + (y[i] - radar_position[1]) ** 2 + (
-                    z[i] - radar_position[2]) ** 2) ** 0.5
+                z[i] - radar_position[2]) ** 2) ** 0.5
         distances.append(distance)
 
     return distances
 
 
-def afficher_points_dans_intervalles(x, y, z):
+def afficher_points_dans_intervalles(x, y, z, V_list):
     distances = distance_to_radar(x, y, z)
     filtered_x = []
     filtered_z = []
+    filtered_v = []
 
     for i in range(len(distances)):
-        if 1 <= distances[i] <= 1.7:
-            if -0.17<= x[i] <= -0.06:
-                filtered_x.append(x[i])
-                filtered_z.append(z[i])
+        if 0.8 <= y[i] <= 2.5:
+            filtered_x.append(x[i])
+            filtered_z.append(z[i])
+            filtered_v.append(V_list[i])  # Ajout de la vitesse associée
 
-    # Affichage du graphique
+    # Affichage du graphique avec graduation de couleur
     plt.figure()
-    plt.scatter(filtered_x, filtered_z, color='b', label='Points entre 0.8m et 1.5m')
+    plt.scatter(filtered_x, filtered_z, c=filtered_v, cmap='viridis', label='Points entre 1.6m et 2m')
     plt.xlabel('X')
     plt.ylabel('Z')
     plt.axhline(0, color='gray', linestyle='--')
     plt.axvline(0, color='gray', linestyle='--')
+    plt.colorbar(label='Vitesse')
     plt.legend()
     plt.show()
 
 
-afficher_points_dans_intervalles(X_list, Y_list, Z_list)
+afficher_points_dans_intervalles(X_list, Y_list, Z_list, V_list)
