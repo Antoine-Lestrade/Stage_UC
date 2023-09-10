@@ -1,12 +1,12 @@
 # Stage_UC
 
-Stage réalisé a l'université de Canterbury, au sein du Wireless Center. Mon travail consistais en l'étude d'un module radar IWR6843ISK.
+Internship at the University of Canterbury, in the Wireless Center. My work consisted in studying an IWR6843ISK radar module.
 
-Le programme "vitesse_1courbe" permet de mesurer pendant 4 seconde les mouvement devant le radar et affiche les differents points avec leur vitesse. Ceci est utilisé afin de mesurer la trajectoire et la vitesse d'un objet en chute situé a environ 2m devant le radar.
+The "speed_1curve" program measures movement in front of the radar for 4 seconds and displays the various points with their speed. This is used to measure the trajectory and speed of a falling object located about 2m in front of the radar.
 
-Pour utiliser le programme: 
-    1 - Flasher la carte avec le fichier .bin de "out of box demo"
-    2 - Lancer le mmwave demo visualiser https://dev.ti.com/gallery/view/mmwave/mmWave_Demo_Visualizer/ver/3.6.0/
-    3 - Choisir les paramètres voulu, puis cliquer sur "send config to mmwave device"
-    4 - Deconnecter le radar en cliquant sur la deuxième icone en bas a gauche de l'écran, situé sur la bande noire. Il doit afficher "hardware not connected"
-    5 - Aller sur pycharm et lancer le progamme, après avoir vérifié que les ports COM sont les bon (gestionnaire de periphérique pour vérifier)
+To use the program: 
+    1 - Flash the board with the .bin file of "out of box demo".
+    2 - Run mmwave demo visualizer https://dev.ti.com/gallery/view/mmwave/mmWave_Demo_Visualizer/ver/3.6.0/
+    3 - Select the desired parameters, then click on "send config to mmwave device".
+    4 - Disconnect the radar by clicking on the second icon at the bottom left of the screen, located on the black band. It should display "hardware not connected".
+    5 - Go to pycharm and run the program, after checking that the COM ports are correct (peripheral manager to verify).
