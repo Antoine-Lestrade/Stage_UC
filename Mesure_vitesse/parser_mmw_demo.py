@@ -314,8 +314,8 @@ def parser_one_mmw_demo_output_packet(data, readNumBytes):
                 detectedRange_array[obj], detectedAzimuth_array[obj], detectedElevAngle_array[obj],
                 detectedSNR_array[obj], detectedNoise_array[obj]))
 
-    # RETURN DE BASE
+    # ORIGINAL RETURN
     # return (result, headerStartIndex, totalPacketNumBytes, numDetObj, numTlv, subFrameNumber, detectedX_array, detectedY_array, detectedZ_array, detectedV_array, detectedRange_array, detectedAzimuth_array, detectedElevAngle_array, detectedSNR_array, detectedNoise_array)
 
-    # RETURN X Y
+    # RETURN WITH ONLY X?Y?Z?V AND RANGE
     return detectedX_array, detectedY_array, detectedZ_array, detectedV_array, detectedRange_array
